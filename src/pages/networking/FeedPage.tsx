@@ -189,9 +189,30 @@ export const FeedPage: React.FC = () => {
     setSavedPostIds(updated);
   };
 
-  const filteredPosts = activeTab === 'saved'
-    ? posts.filter((p) => savedPostIds.includes(p.id))
-    : posts;
+  const [activeCategory, setActiveCategory] = useState<'all' | 'projects' | 'jobs' | 'hackathons' | 'achievements'>('all');
+  const [selectedHashtag, setSelectedHashtag] = useState<string | null>(null);
+
+  const filteredPosts = posts.filter((p) => {
+    if (activeTab === 'saved') {
+      return savedPostIds.includes(p.id);
+    }
+    if (selectedHashtag) {
+      return p.content.toLowerCase().includes(selectedHashtag.toLowerCase());
+    }
+    if (activeCategory === 'projects') {
+      return p.attachment?.type === 'project' || p.content.toLowerCase().includes('project') || p.content.toLowerCase().includes('github');
+    }
+    if (activeCategory === 'jobs') {
+      return p.content.toLowerCase().includes('hiring') || p.content.toLowerCase().includes('internship') || p.content.toLowerCase().includes('opening') || p.authorRole === 'company';
+    }
+    if (activeCategory === 'hackathons') {
+      return p.content.toLowerCase().includes('hackathon') || p.content.toLowerCase().includes('challenge') || p.content.toLowerCase().includes('badge');
+    }
+    if (activeCategory === 'achievements') {
+      return p.content.toLowerCase().includes('achievement') || p.content.toLowerCase().includes('certified') || p.content.toLowerCase().includes('completed');
+    }
+    return true;
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
@@ -369,6 +390,65 @@ export const FeedPage: React.FC = () => {
                 <Send className="w-3.5 h-3.5" />
                 <span>{posting ? 'Posting...' : 'Post'}</span>
               </button>
+            </div>
+          </div>
+
+          {/* Category & Hashtag Filter Bar */}
+          <div className="bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
+            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-semibold">
+              {[
+                { id: 'all', label: 'All Updates' },
+                { id: 'projects', label: 'Projects & Code' },
+                { id: 'jobs', label: 'Jobs & Hiring' },
+                { id: 'hackathons', label: 'Hackathons' },
+                { id: 'achievements', label: 'Milestones' }
+              ].map((cat) => (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => {
+                    setActiveCategory(cat.id as any);
+                    setSelectedHashtag(null);
+                  }}
+                  className={`px-3 py-1.5 rounded-xl transition-all whitespace-nowrap ${
+                    activeCategory === cat.id && !selectedHashtag
+                      ? 'bg-blue-600 text-white font-bold shadow-xs'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Trending Hashtag Pills */}
+            <div className="flex flex-wrap items-center gap-1.5 pt-1 border-t border-slate-100 dark:border-slate-800 text-[11px]">
+              <span className="text-slate-400 font-bold uppercase tracking-wider mr-1">Trending:</span>
+              {['#typescript', '#react', '#systemdesign', '#hiring', '#opensource', '#interviewprep'].map((tag) => (
+                <button
+                  key={tag}
+                  type="button"
+                  onClick={() => {
+                    setSelectedHashtag(selectedHashtag === tag ? null : tag);
+                  }}
+                  className={`px-2 py-0.5 rounded-md font-medium transition-colors ${
+                    selectedHashtag === tag
+                      ? 'bg-indigo-600 text-white font-bold'
+                      : 'bg-slate-50 dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 border border-slate-200 dark:border-slate-700'
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
+              {selectedHashtag && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedHashtag(null)}
+                  className="text-slate-400 hover:text-slate-600 text-[10px] underline ml-1"
+                >
+                  Clear tag
+                </button>
+              )}
             </div>
           </div>
 

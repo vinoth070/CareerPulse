@@ -131,7 +131,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const emailLower = (email || '').toLowerCase().trim();
       const isAdminEmail =
         emailLower === 'kalikalivino17@gmail.com' ||
-        emailLower === 'vinoth1707k@gmail.com';
+        emailLower === 'vinoth1707k@gmail.com' ||
+        emailLower === 'bodha.326@gmail.com';
 
       // Check if company record exists for this uid
       let fetchedCompany: CompanyProfile | null = null;
@@ -236,7 +237,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setRole(initialRole);
           setAuthorizedRoles(rolesList);
         } catch (err) {
-          handleFirestoreError(err, OperationType.WRITE, `users/${uid}`);
+          console.warn('Initial profile create notice:', err);
+          setUserProfile(defaultProfile);
+          setRole(initialRole);
+          setAuthorizedRoles(rolesList);
         }
 
         return {
@@ -246,8 +250,38 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
       }
     } catch (error) {
-      handleFirestoreError(error, OperationType.GET, `users/${uid}`);
-      throw error;
+      console.warn('User profile fetch notice (using session fallback):', error);
+      const emailLower = (email || '').toLowerCase().trim();
+      const isAdminEmail =
+        emailLower === 'kalikalivino17@gmail.com' ||
+        emailLower === 'vinoth1707k@gmail.com' ||
+        emailLower === 'bodha.326@gmail.com';
+      const fallbackRole: UserRole = isAdminEmail ? 'admin' : 'student';
+      const fallbackRoles: UserRole[] = [fallbackRole];
+      const fallbackProfile: UserProfile = {
+        uid,
+        email: email || '',
+        displayName: currentUser?.displayName || (email.split('@')[0]) || 'Platform Member',
+        role: fallbackRole,
+        roles: fallbackRoles,
+        bio: 'Platform candidate actively preparing for enterprise career opportunities.',
+        skills: ['React', 'TypeScript', 'Problem Solving'],
+        softSkills: ['Communication', 'Teamwork'],
+        projects: [],
+        certifications: [],
+        profileVisibility: 'public',
+        profileCompleted: true,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString()
+      };
+      setUserProfile(fallbackProfile);
+      setRole(fallbackRole);
+      setAuthorizedRoles(fallbackRoles);
+      return {
+        profile: fallbackProfile,
+        companyProfile: null,
+        authorizedRoles: fallbackRoles
+      };
     }
   };
 

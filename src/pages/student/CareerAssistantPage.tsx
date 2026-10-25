@@ -47,12 +47,13 @@ export const CareerAssistantPage: React.FC = () => {
     if (!userProfile) return;
     setGenerating(true);
     try {
+      const geminiKey = typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : undefined;
       const generated = await generateTargetCareerPlan({
         targetCompany,
         targetRole,
         location,
         userProfile,
-        apiKey: process.env.GEMINI_API_KEY
+        apiKey: geminiKey || (import.meta as any).env?.VITE_GEMINI_API_KEY
       });
       setPlan(generated);
       setCurrentStep('analysis');

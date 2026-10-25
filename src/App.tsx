@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
-import { Navbar } from './components/layout/Navbar';
-import { Footer } from './components/layout/Footer';
+import { ThemeProvider } from './context/ThemeContext';
+import { AppLayout } from './components/layout/AppLayout';
 import { ProtectedRoute } from './components/common/ProtectedRoute';
 
 // Public Pages
@@ -20,7 +20,6 @@ import { FeedPage } from './pages/networking/FeedPage';
 import { NetworkPage } from './pages/networking/NetworkPage';
 import { MessagesPage } from './pages/networking/MessagesPage';
 import { SearchPage } from './pages/networking/SearchPage';
-
 
 // Student Portal Pages (Portal 1)
 import { StudentDashboard } from './pages/student/StudentDashboard';
@@ -51,17 +50,17 @@ import { AdminPortalPage } from './pages/admin/AdminPortalPage';
 // Fairness Reviewer Portal (Portal 4)
 import { ReviewerPortalPage } from './pages/reviewer/ReviewerPortalPage';
 
-// In-Platform Live Online Interview & Feedback
+// In-Platform Live Online Interview & Rubric Trainer
 import { OnlineInterviewRoom } from './pages/interview/OnlineInterviewRoom';
 import { PostInterviewFeedbackPage } from './pages/interview/PostInterviewFeedbackPage';
+import { InterviewPreparationPage } from './pages/interview/InterviewPreparationPage';
 
 export default function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-blue-100 selection:text-blue-900">
-          <Navbar />
-          <main className="flex-1">
+      <ThemeProvider>
+        <AuthProvider>
+          <AppLayout>
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<HomePage />} />
@@ -100,8 +99,7 @@ export default function App() {
                 }
               />
 
-
-              {/* In-Platform Live Interview Room (accessible to student, company, reviewer, admin) */}
+              {/* In-Platform Live Interview Room & Preparation */}
               <Route
                 path="/interview/:interviewId"
                 element={
@@ -115,6 +113,22 @@ export default function App() {
                 element={
                   <ProtectedRoute>
                     <PostInterviewFeedbackPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/student/interview-prep"
+                element={
+                  <ProtectedRoute allowedRole="student">
+                    <InterviewPreparationPage />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/interview/prep"
+                element={
+                  <ProtectedRoute>
+                    <InterviewPreparationPage />
                   </ProtectedRoute>
                 }
               />
@@ -298,10 +312,9 @@ export default function App() {
               {/* Fallback */}
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
-          </main>
-          <Footer />
-        </div>
-      </AuthProvider>
+          </AppLayout>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

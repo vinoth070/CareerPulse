@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { BRAND_CONFIG } from '../../config/brand';
 import {
   Shield,
@@ -12,29 +13,53 @@ import {
   AlertTriangle,
   User,
   Lock,
-  Mail
+  Mail,
+  Moon,
+  Sun,
+  Laptop,
+  Bell,
+  Target,
+  Sparkles,
+  Check
 } from 'lucide-react';
 
 export const StudentSettings: React.FC = () => {
   const { currentUser, userProfile, updateStudentProfile, logout } = useAuth();
+  const { theme, setTheme } = useTheme();
   const navigate = useNavigate();
 
   const [visibility, setVisibility] = useState<'public' | 'private'>(
     userProfile?.profileVisibility || 'public'
   );
+
+  // Notification prefs
+  const [emailAlerts, setEmailAlerts] = useState(true);
+  const [interviewReminders, setInterviewReminders] = useState(true);
+  const [connectionNotifs, setConnectionNotifs] = useState(true);
+
+  // Career prefs
+  const [targetRole, setTargetRole] = useState(userProfile?.targetRole || 'Software Engineer');
+  const [targetCompany, setTargetCompany] = useState(userProfile?.targetCompany || 'Google');
+  const [workArrangement, setWorkArrangement] = useState<'remote' | 'hybrid' | 'onsite'>('remote');
+
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteConfirmation, setDeleteConfirmation] = useState('');
 
-  const handleSaveVisibility = async () => {
+  const handleSavePreferences = async () => {
     try {
       setSaving(true);
-      await updateStudentProfile({ profileVisibility: visibility });
-      setSuccessMsg('Privacy preference updated.');
+      await updateStudentProfile({
+        profileVisibility: visibility,
+        targetRole,
+        targetCompany
+      });
+      setSuccessMsg('Settings and preferences successfully saved.');
       setTimeout(() => setSuccessMsg(null), 3000);
     } catch (e: any) {
       console.error(e);
+      setSuccessMsg('Error saving preferences: ' + e.message);
     } finally {
       setSaving(false);
     }
@@ -42,188 +67,268 @@ export const StudentSettings: React.FC = () => {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/');
+    navigate('/login');
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs">
-          <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            Account Preferences &amp; Privacy
-          </h1>
-          <p className="text-xs text-slate-500 mt-1">
-            Manage your personal data visibility, security preferences, and session controls.
-          </p>
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      {/* Header */}
+      <div className="bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs">
+        <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Account Preferences &amp; Platform Settings
+        </h1>
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+          Customize your interface theme, visibility to recruiters, notification preferences, and security controls.
+        </p>
+      </div>
+
+      {successMsg && (
+        <div className="p-4 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 rounded-2xl flex items-center gap-2.5 text-xs text-emerald-800 dark:text-emerald-300 animate-in fade-in">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span>{successMsg}</span>
         </div>
+      )}
 
-        {successMsg && (
-          <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-2 text-xs text-emerald-800">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>{successMsg}</span>
-          </div>
-        )}
+      {/* 1. Theme Configuration */}
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+        <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <Moon className="w-4 h-4 text-blue-600" />
+          Appearance &amp; Theme
+        </h3>
 
-        {/* Visibility Setting */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <Shield className="w-4 h-4 text-blue-600" />
-              Recruiter Discovery Controls
-            </h3>
-          </div>
-
-          <p className="text-xs text-slate-600 leading-relaxed">
-            When <strong>Public</strong> is selected, corporate recruiters from verified MNC partners can view your academic details, verified quiz scores, and listed projects in the talent search directory. When <strong>Private</strong> is chosen, your profile is hidden from all searches.
-          </p>
-
-          <div className="flex items-center gap-4 pt-2">
-            <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
-              <input
-                type="radio"
-                name="visibility"
-                checked={visibility === 'public'}
-                onChange={() => setVisibility('public')}
-                className="text-blue-600 focus:ring-blue-500"
-              />
-              <span className="flex items-center gap-1.5">
-                <Eye className="w-4 h-4 text-emerald-600" /> Public to Verified Recruiters
-              </span>
-            </label>
-
-            <label className="flex items-center gap-2 cursor-pointer text-xs font-semibold text-slate-700">
-              <input
-                type="radio"
-                name="visibility"
-                checked={visibility === 'private'}
-                onChange={() => setVisibility('private')}
-                className="text-blue-600 focus:ring-blue-500"
-              />
-              <span className="flex items-center gap-1.5">
-                <EyeOff className="w-4 h-4 text-slate-400" /> Private (Hidden from search)
-              </span>
-            </label>
-          </div>
-
-          <div className="pt-2">
-            <button
-              onClick={handleSaveVisibility}
-              disabled={saving}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors"
-            >
-              {saving ? 'Updating...' : 'Save Privacy Setting'}
-            </button>
-          </div>
-        </div>
-
-        {/* Account Details */}
-        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-3">
-          <h3 className="text-sm font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
-            <User className="w-4 h-4 text-blue-600" />
-            Authentication Credentials
-          </h3>
-
-          <div className="text-xs space-y-2 text-slate-600">
-            <p>
-              Account UID: <code className="bg-slate-100 px-1.5 py-0.5 rounded text-slate-800">{currentUser?.uid}</code>
-            </p>
-            <p>
-              Primary Email: <span className="font-semibold text-slate-900">{currentUser?.email}</span>
-            </p>
-            <p>
-              Authentication Provider:{' '}
-              <span className="font-semibold text-slate-900">
-                {currentUser?.providerData[0]?.providerId === 'google.com' ? 'Google OAuth' : 'Email & Password'}
-              </span>
-            </p>
-          </div>
-        </div>
-
-        {/* Danger Zone: Deletion & Sign Out */}
-        <div className="bg-white p-6 rounded-2xl border border-rose-200 shadow-xs space-y-4">
-          <h3 className="text-sm font-bold text-rose-900 border-b border-rose-100 pb-3 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-rose-600" />
-            Account Management &amp; Termination
-          </h3>
-
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+          <button
+            type="button"
+            onClick={() => setTheme('light')}
+            className={`p-4 rounded-xl border text-left transition-all flex items-center gap-3 ${
+              theme === 'light'
+                ? 'bg-blue-50/60 dark:bg-blue-950/40 border-blue-600 text-blue-900 dark:text-blue-200 shadow-xs'
+                : 'border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+            }`}
+          >
+            <Sun className="w-5 h-5 text-amber-500" />
             <div>
-              <p className="text-xs font-bold text-slate-900">Sign Out of All Sessions</p>
-              <p className="text-[11px] text-slate-500">Safely log out of this browser session.</p>
+              <div className="text-xs font-bold">Light Theme</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400">Clean daytime aesthetic</div>
             </div>
-            <button
-              onClick={handleLogout}
-              className="px-4 py-2 text-xs font-bold text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-xl transition-colors flex items-center gap-1.5 shrink-0"
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setTheme('dark')}
+            className={`p-4 rounded-xl border text-left transition-all flex items-center gap-3 ${
+              theme === 'dark'
+                ? 'bg-blue-50/60 dark:bg-blue-950/40 border-blue-600 text-blue-900 dark:text-blue-200 shadow-xs'
+                : 'border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+            }`}
+          >
+            <Moon className="w-5 h-5 text-indigo-400" />
+            <div>
+              <div className="text-xs font-bold">Dark Theme</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400">High-contrast night palette</div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setTheme('system')}
+            className={`p-4 rounded-xl border text-left transition-all flex items-center gap-3 ${
+              theme === 'system'
+                ? 'bg-blue-50/60 dark:bg-blue-950/40 border-blue-600 text-blue-900 dark:text-blue-200 shadow-xs'
+                : 'border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/40 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+            }`}
+          >
+            <Laptop className="w-5 h-5 text-slate-500" />
+            <div>
+              <div className="text-xs font-bold">System Default</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400">Matches OS appearance</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* 2. Recruiter Visibility */}
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+        <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <Shield className="w-4 h-4 text-blue-600" />
+          Profile Visibility &amp; Recruiter Discovery
+        </h3>
+
+        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+          Control whether verified recruiters at accredited partner companies can discover your profile, verified assessment scores, and portfolio.
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 pt-1">
+          <label className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-slate-700 dark:text-slate-300">
+            <input
+              type="radio"
+              name="visibility"
+              checked={visibility === 'public'}
+              onChange={() => setVisibility('public')}
+              className="text-blue-600 focus:ring-blue-500"
+            />
+            <span className="flex items-center gap-1.5">
+              <Eye className="w-4 h-4 text-emerald-600" />
+              Public to Verified Recruiters
+            </span>
+          </label>
+
+          <label className="flex items-center gap-2.5 cursor-pointer text-xs font-semibold text-slate-700 dark:text-slate-300">
+            <input
+              type="radio"
+              name="visibility"
+              checked={visibility === 'private'}
+              onChange={() => setVisibility('private')}
+              className="text-blue-600 focus:ring-blue-500"
+            />
+            <span className="flex items-center gap-1.5">
+              <EyeOff className="w-4 h-4 text-slate-400" />
+              Private (Hidden from Talent Search)
+            </span>
+          </label>
+        </div>
+      </div>
+
+      {/* 3. Career Preferences */}
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+        <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <Target className="w-4 h-4 text-blue-600" />
+          Target Career Preferences
+        </h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              Primary Career Target Role
+            </label>
+            <select
+              value={targetRole}
+              onChange={(e) => setTargetRole(e.target.value)}
+              className="w-full py-2 px-3 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white"
             >
-              <LogOut className="w-3.5 h-3.5" /> Sign Out
-            </button>
+              <option value="Software Engineer">Software Engineer</option>
+              <option value="Frontend Engineer">Frontend Engineer</option>
+              <option value="Backend Engineer">Backend Engineer</option>
+              <option value="Cloud / DevOps Engineer">Cloud / DevOps Engineer</option>
+              <option value="Data Analyst & BI Specialist">Data Analyst &amp; BI Specialist</option>
+            </select>
           </div>
 
-          <div className="pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <p className="text-xs font-bold text-rose-700">Delete Account &amp; Stored Data</p>
-              <p className="text-[11px] text-slate-500">
-                Request complete erasure of your profile and submitted quiz attempts.
-              </p>
-            </div>
-            <button
-              onClick={() => setShowDeleteModal(true)}
-              className="px-4 py-2 text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl transition-colors flex items-center gap-1.5 shrink-0"
+          <div>
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              Top Dream Enterprise
+            </label>
+            <select
+              value={targetCompany}
+              onChange={(e) => setTargetCompany(e.target.value)}
+              className="w-full py-2 px-3 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white"
             >
-              <Trash2 className="w-3.5 h-3.5" /> Request Deletion
-            </button>
+              <option value="Google">Google</option>
+              <option value="Microsoft">Microsoft</option>
+              <option value="NVIDIA">NVIDIA</option>
+              <option value="Amazon">Amazon</option>
+              <option value="Stripe">Stripe</option>
+              <option value="CloudScale">CloudScale Technologies</option>
+            </select>
           </div>
         </div>
 
-        {/* Delete Confirmation Modal */}
-        {showDeleteModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in">
-            <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-slate-200 space-y-4">
-              <div className="flex items-center gap-2 text-rose-600">
-                <AlertTriangle className="w-6 h-6" />
-                <h3 className="text-base font-bold text-slate-900">Confirm Account Deletion Request</h3>
-              </div>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                This action initiates permanent deletion of your student profile, skills records, and job application history under data privacy regulations.
-              </p>
-              <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
-                  Type <span className="font-bold text-rose-700">DELETE</span> to confirm:
-                </label>
-                <input
-                  type="text"
-                  value={deleteConfirmation}
-                  onChange={(e) => setDeleteConfirmation(e.target.value)}
-                  placeholder="DELETE"
-                  className="w-full py-2 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl"
-                />
-              </div>
-
-              <div className="flex justify-end gap-2 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setShowDeleteModal(false)}
-                  className="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  disabled={deleteConfirmation !== 'DELETE'}
-                  onClick={async () => {
-                    alert('Account deletion request registered. You will now be signed out.');
-                    await logout();
-                    navigate('/');
-                  }}
-                  className="px-4 py-2 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-xl disabled:opacity-30"
-                >
-                  Confirm Deletion
-                </button>
-              </div>
-            </div>
+        <div>
+          <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
+            Work Arrangement Preference
+          </label>
+          <div className="flex gap-2">
+            {(['remote', 'hybrid', 'onsite'] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                onClick={() => setWorkArrangement(mode)}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-bold capitalize border transition-all ${
+                  workArrangement === mode
+                    ? 'bg-blue-600 text-white border-blue-600 shadow-xs'
+                    : 'bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700'
+                }`}
+              >
+                {mode}
+              </button>
+            ))}
           </div>
-        )}
+        </div>
+      </div>
+
+      {/* 4. Notification Preferences */}
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+        <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <Bell className="w-4 h-4 text-blue-600" />
+          Notification Preferences
+        </h3>
+
+        <div className="space-y-3">
+          <label className="flex items-center justify-between text-xs cursor-pointer">
+            <span className="font-medium text-slate-700 dark:text-slate-300">New job &amp; internship match alerts</span>
+            <input
+              type="checkbox"
+              checked={emailAlerts}
+              onChange={(e) => setEmailAlerts(e.target.checked)}
+              className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4"
+            />
+          </label>
+
+          <label className="flex items-center justify-between text-xs cursor-pointer">
+            <span className="font-medium text-slate-700 dark:text-slate-300">Interview invitations and schedule reminders</span>
+            <input
+              type="checkbox"
+              checked={interviewReminders}
+              onChange={(e) => setInterviewReminders(e.target.checked)}
+              className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4"
+            />
+          </label>
+
+          <label className="flex items-center justify-between text-xs cursor-pointer">
+            <span className="font-medium text-slate-700 dark:text-slate-300">Connection requests and community updates</span>
+            <input
+              type="checkbox"
+              checked={connectionNotifs}
+              onChange={(e) => setConnectionNotifs(e.target.checked)}
+              className="rounded border-slate-300 text-blue-600 focus:ring-blue-500 w-4 h-4"
+            />
+          </label>
+        </div>
+      </div>
+
+      {/* Save Button Bar */}
+      <div className="flex justify-end">
+        <button
+          type="button"
+          onClick={handleSavePreferences}
+          disabled={saving}
+          className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-2 disabled:opacity-50"
+        >
+          {saving ? 'Saving...' : 'Save All Preferences'}
+          <Check className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Account Termination & Session Exit */}
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-rose-200 dark:border-rose-900/60 shadow-xs space-y-4">
+        <h3 className="text-sm font-bold text-rose-900 dark:text-rose-400 border-b border-rose-100 dark:border-rose-900/40 pb-3 flex items-center gap-2">
+          <AlertTriangle className="w-4 h-4 text-rose-600" />
+          Account &amp; Session Termination
+        </h3>
+
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-bold text-slate-900 dark:text-white">Sign Out of Platform</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">Terminates active authentication on this device.</p>
+          </div>
+          <button
+            type="button"
+            onClick={handleLogout}
+            className="px-4 py-2 text-xs font-bold text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 rounded-xl transition-colors flex items-center gap-1.5 shrink-0"
+          >
+            <LogOut className="w-3.5 h-3.5" /> Sign Out
+          </button>
+        </div>
       </div>
     </div>
   );

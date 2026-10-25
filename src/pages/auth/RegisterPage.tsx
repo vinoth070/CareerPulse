@@ -521,132 +521,31 @@ export const RegisterPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Skills & Career Preferences */}
-              <div className="border-t border-slate-100 pt-5 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <h3 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-blue-600" />
-                      Skills &amp; Career Aspirations
-                    </h3>
-                    <p className="text-xs text-slate-500">Pick your core skills and interests. You can edit or add more later.</p>
-                  </div>
-                </div>
-
+              {/* Basic Location & Profile Note */}
+              <div className="border-t border-slate-100 dark:border-slate-800 pt-5 space-y-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                    Select Your Core Skills
+                  <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                    Location / City (Optional)
                   </label>
-                  <div className="flex flex-wrap gap-2">
-                    {COMMON_SKILLS.map((skill) => {
-                      const isSelected = selectedSkills.includes(skill);
-                      return (
-                        <button
-                          key={skill}
-                          type="button"
-                          onClick={() => toggleSkill(skill)}
-                          className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                            isSelected
-                              ? 'bg-blue-600 text-white shadow-xs'
-                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                          }`}
-                        >
-                          {isSelected ? '✓ ' : '+ '}
-                          {skill}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  <div className="flex gap-2 mt-2.5">
-                    <input
-                      type="text"
-                      value={customSkillInput}
-                      onChange={(e) => setCustomSkillInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          addCustomSkill();
-                        }
-                      }}
-                      placeholder="Add another skill and press Enter (e.g. Next.js, Kubernetes)"
-                      className="flex-1 py-1.5 px-3 text-xs bg-slate-50 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
-                    <button
-                      type="button"
-                      onClick={addCustomSkill}
-                      className="px-3 py-1.5 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-slate-700"
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">
-                    Career Focus Areas
-                  </label>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                    {CAREER_INTEREST_OPTIONS.map((interest) => {
-                      const isSelected = selectedInterests.includes(interest);
-                      return (
-                        <button
-                          key={interest}
-                          type="button"
-                          onClick={() => toggleInterest(interest)}
-                          className={`p-2 rounded-lg text-xs text-left font-medium border transition-colors ${
-                            isSelected
-                              ? 'border-blue-600 bg-blue-50/70 text-blue-900 font-bold'
-                              : 'border-slate-200 bg-slate-50/50 text-slate-600 hover:bg-slate-50'
-                          }`}
-                        >
-                          {isSelected && '✓ '}
-                          {interest}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Preferred Job Roles
-                    </label>
-                    <input
-                      type="text"
-                      value={preferredJobRoles}
-                      onChange={(e) => setPreferredJobRoles(e.target.value)}
-                      placeholder="e.g. Software Engineer, Frontend Engineer"
-                      className="w-full py-2.5 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Preferred Locations
-                    </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                      <MapPin className="w-4 h-4" />
+                    </div>
                     <input
                       type="text"
                       value={preferredLocations}
                       onChange={(e) => setPreferredLocations(e.target.value)}
-                      placeholder="e.g. Remote, San Francisco, Bangalore"
-                      className="w-full py-2.5 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      placeholder="e.g. San Francisco, CA or Bangalore / Remote"
+                      className="w-full pl-9 pr-3.5 py-2.5 text-xs bg-slate-50 dark:bg-slate-800/60 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600"
                     />
                   </div>
                 </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
-                    Resume or Portfolio Link (Optional during onboarding)
-                  </label>
-                  <input
-                    type="url"
-                    value={resumeUrl}
-                    onChange={(e) => setResumeUrl(e.target.value)}
-                    placeholder="https://drive.google.com/... or https://myportfolio.dev"
-                    className="w-full py-2.5 px-3 text-xs bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-600"
-                  />
-                  <p className="text-[10px] text-slate-400 mt-1">You can also build your resume using our interactive Resume Builder later.</p>
+                <div className="p-3.5 bg-blue-50 dark:bg-blue-950/30 rounded-xl border border-blue-100 dark:border-blue-900/40 flex items-start gap-2.5 text-xs text-blue-900 dark:text-blue-300">
+                  <Info className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                  <p className="leading-relaxed">
+                    <strong>Quick setup:</strong> You do not need to fill out dozens of technologies right now. You can configure target roles, projects, certifications, and portfolio details anytime inside your dashboard.
+                  </p>
                 </div>
               </div>
 
