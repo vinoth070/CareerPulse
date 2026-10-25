@@ -13,17 +13,11 @@ service cloud.firestore {
 
     function isAdmin() {
       return isSignedIn() && (
-        request.auth.token.email == 'kalikalivino17@gmail.com' ||
-        request.auth.token.email == 'vinoth1707k@gmail.com' ||
+        ('email' in request.auth.token && (
+          request.auth.token.email.lower() == 'kalikalivino17@gmail.com' ||
+          request.auth.token.email.lower() == 'vinoth1707k@gmail.com'
+        )) ||
         exists(/databases/$(database)/documents/admins/$(request.auth.uid))
-      );
-    }
-
-    function isReviewer() {
-      return isSignedIn() && (
-        isAdmin() ||
-        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'reviewer')
       );
     }
 
@@ -46,26 +40,30 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // Platform Admins
+    match /admins/{adminId} {
+      allow read: if isSignedIn() && (isOwner(adminId) || isAdmin());
+      allow write: if isAdmin();
+    }
+
     // User profiles (Students, Recruiters, Admins, Reviewers)
     match /users/{userId} {
       allow get: if isSignedIn() && (
         isOwner(userId) || 
-        resource.data.profileVisibility == 'public' || 
-        isAdmin() || 
-        isReviewer()
+        (resource != null && resource.data.get('profileVisibility', 'private') == 'public') || 
+        isAdmin()
       );
       allow list: if isSignedIn() && (
         resource.data.uid == request.auth.uid || 
-        resource.data.profileVisibility == 'public' || 
-        isAdmin() || 
-        isReviewer()
+        resource.data.get('profileVisibility', 'private') == 'public' || 
+        isAdmin()
       );
       allow create: if isOwner(userId) && 
         incoming().uid == request.auth.uid &&
         (isAdmin() || (
           incoming().role in ['student', 'company', 'reviewer'] &&
           (incoming().role != 'admin') &&
-          incoming().profileVisibility in ['public', 'private']
+          incoming().get('profileVisibility', 'public') in ['public', 'private']
         ));
       allow update: if (isOwner(userId) || isAdmin()) && 
         incoming().uid == existing().uid && 
@@ -76,14 +74,15 @@ service cloud.firestore {
     // Company profiles
     match /companies/{companyId} {
       allow get, list: if isSignedIn();
-      allow create: if isOwner(companyId) && 
-        incoming().ownerUid == request.auth.uid &&
-        (incoming().verificationStatus in ['pending', 'verified'] || incoming().isDemo == true || isAdmin());
+      allow create: if isSignedIn() && (
+        (isOwner(companyId) && incoming().ownerUid == request.auth.uid) ||
+        incoming().isDemo == true ||
+        isAdmin()
+      );
       allow update: if isSignedIn() && (
         isAdmin() || 
-        (isOwner(companyId) && 
-         incoming().ownerUid == existing().ownerUid && 
-         (incoming().verificationStatus == existing().verificationStatus || isAdmin() || existing().isDemo == true))
+        (existing().ownerUid == request.auth.uid && incoming().ownerUid == existing().ownerUid) ||
+        existing().isDemo == true
       );
       allow delete: if isOwner(companyId) || isAdmin();
     }
