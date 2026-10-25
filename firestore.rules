@@ -1,0 +1,314 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'kalikalivino17@gmail.com' ||
+        request.auth.token.email == 'vinoth1707k@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isReviewer() {
+      return isSignedIn() && (
+        isAdmin() ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'reviewer')
+      );
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Connection diagnostics
+    match /test/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // User profiles (Students, Recruiters, Admins, Reviewers)
+    match /users/{userId} {
+      allow get: if isSignedIn() && (
+        isOwner(userId) || 
+        resource.data.profileVisibility == 'public' || 
+        isAdmin() || 
+        isReviewer()
+      );
+      allow list: if isSignedIn() && (
+        resource.data.uid == request.auth.uid || 
+        resource.data.profileVisibility == 'public' || 
+        isAdmin() || 
+        isReviewer()
+      );
+      allow create: if isOwner(userId) && 
+        incoming().uid == request.auth.uid &&
+        (isAdmin() || (
+          incoming().role in ['student', 'company', 'reviewer'] &&
+          (incoming().role != 'admin') &&
+          incoming().profileVisibility in ['public', 'private']
+        ));
+      allow update: if (isOwner(userId) || isAdmin()) && 
+        incoming().uid == existing().uid && 
+        (incoming().role == existing().role || isAdmin());
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+
+    // Company profiles
+    match /companies/{companyId} {
+      allow get, list: if isSignedIn();
+      allow create: if isOwner(companyId) && 
+        incoming().ownerUid == request.auth.uid &&
+        (incoming().verificationStatus in ['pending', 'verified'] || incoming().isDemo == true || isAdmin());
+      allow update: if isSignedIn() && (
+        isAdmin() || 
+        (isOwner(companyId) && 
+         incoming().ownerUid == existing().ownerUid && 
+         (incoming().verificationStatus == existing().verificationStatus || isAdmin() || existing().isDemo == true))
+      );
+      allow delete: if isOwner(companyId) || isAdmin();
+    }
+
+    // Quizzes (skill assessments & practice topics)
+    match /quizzes/{quizId} {
+      allow get, list: if isSignedIn();
+      allow create, update, delete: if isAdmin() || isReviewer();
+    }
+
+    // Quiz attempts & scoring
+    match /quizAttempts/{attemptId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || 
+        isAdmin() || 
+        isReviewer()
+      );
+      allow create: if isSignedIn() && 
+        incoming().userId == request.auth.uid;
+      allow update: if false; // Official scores are immutable
+      allow delete: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || 
+        isAdmin()
+      );
+    }
+
+    // Job and Internship listings
+    match /jobs/{jobId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && 
+        incoming().companyId == request.auth.uid;
+      allow update: if isSignedIn() && (
+        isAdmin() || 
+        (existing().companyId == request.auth.uid && incoming().companyId == existing().companyId)
+      );
+      allow delete: if isSignedIn() && (
+        existing().companyId == request.auth.uid || 
+        isAdmin()
+      );
+    }
+
+    // Job applications
+    match /applications/{applicationId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.candidateUid == request.auth.uid || 
+        resource.data.companyId == request.auth.uid || 
+        isAdmin() || 
+        isReviewer()
+      );
+      allow create: if isSignedIn() && (
+        (incoming().candidateUid == request.auth.uid && incoming().status in ['draft', 'applied']) ||
+        (incoming().companyId == request.auth.uid && incoming().isDemo == true) ||
+        isAdmin()
+      );
+      allow update: if isSignedIn() && (
+        isAdmin() || 
+        (existing().companyId == request.auth.uid && 
+         incoming().candidateUid == existing().candidateUid && 
+         incoming().jobId == existing().jobId) ||
+        (existing().candidateUid == request.auth.uid && 
+         (incoming().status in ['withdrawn', 'offer_accepted', 'joining_info_available']) && 
+         incoming().diff(existing()).affectedKeys().hasAny(['status', 'updatedAt', 'joiningDetails']))
+      );
+      allow delete: if isSignedIn() && (
+        resource.data.candidateUid == request.auth.uid || 
+        isAdmin()
+      );
+    }
+
+    // Company Updates feed
+    match /companyUpdates/{updateId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && 
+        incoming().companyId == request.auth.uid;
+      allow update, delete: if isSignedIn() && (
+        existing().companyId == request.auth.uid || 
+        isAdmin()
+      );
+    }
+
+    // Hackathons & Challenges
+    match /hackathons/{hackathonId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && 
+        incoming().companyId == request.auth.uid;
+      allow update, delete: if isSignedIn() && (
+        existing().companyId == request.auth.uid || 
+        isAdmin()
+      );
+    }
+
+    // Hackathon Submissions
+    match /hackathonSubmissions/{submissionId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.candidateUid == request.auth.uid || 
+        resource.data.companyId == request.auth.uid || 
+        isAdmin() || 
+        isReviewer()
+      );
+      allow create: if isSignedIn() && 
+        incoming().candidateUid == request.auth.uid && 
+        incoming().status == 'submitted';
+      allow update: if isSignedIn() && (
+        existing().companyId == request.auth.uid || 
+        isAdmin() || 
+        isReviewer()
+      );
+      allow delete: if isSignedIn() && (
+        resource.data.candidateUid == request.auth.uid || 
+        isAdmin()
+      );
+    }
+
+    // Online Interviews & Rooms
+    match /interviews/{interviewId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.candidateUid == request.auth.uid || 
+        resource.data.companyId == request.auth.uid || 
+        isAdmin() || 
+        isReviewer()
+      );
+      allow create: if isSignedIn() && (
+        incoming().companyId == request.auth.uid || 
+        isAdmin()
+      );
+      allow update: if isSignedIn() && (
+        existing().companyId == request.auth.uid || 
+        existing().candidateUid == request.auth.uid || 
+        isAdmin() || 
+        isReviewer()
+      );
+      allow delete: if isSignedIn() && (
+        existing().companyId == request.auth.uid || 
+        isAdmin()
+      );
+    }
+
+    // Fairness Review Records
+    match /fairnessReviews/{reviewId} {
+      allow get, list: if isAdmin() || isReviewer();
+      allow create, update: if isAdmin() || isReviewer();
+      allow delete: if isAdmin();
+    }
+
+    // Support and Incident Tickets
+    match /supportTickets/{ticketId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.userId == request.auth.uid || 
+        isAdmin()
+      );
+      allow create: if isSignedIn() && 
+        incoming().userId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+
+    // Professional Connection Requests
+    match /connectionRequests/{requestId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.senderUid == request.auth.uid || 
+        resource.data.recipientUid == request.auth.uid || 
+        isAdmin()
+      );
+      allow create: if isSignedIn() && incoming().senderUid == request.auth.uid;
+      allow update: if isSignedIn() && (
+        existing().recipientUid == request.auth.uid || 
+        existing().senderUid == request.auth.uid
+      );
+      allow delete: if isSignedIn() && (
+        existing().senderUid == request.auth.uid || 
+        existing().recipientUid == request.auth.uid || 
+        isAdmin()
+      );
+    }
+
+    // Community and Professional Feed Posts
+    match /feedPosts/{postId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && incoming().authorUid == request.auth.uid;
+      allow update: if isSignedIn() && (
+        existing().authorUid == request.auth.uid || 
+        incoming().diff(existing()).affectedKeys().hasOnly(['likesCount', 'likedBy', 'savedBy', 'commentsCount', 'sharesCount', 'reportedBy', 'updatedAt']) ||
+        isAdmin()
+      );
+      allow delete: if isSignedIn() && (existing().authorUid == request.auth.uid || isAdmin());
+    }
+
+    // Post Comments
+    match /postComments/{commentId} {
+      allow get, list: if isSignedIn();
+      allow create: if isSignedIn() && incoming().authorUid == request.auth.uid;
+      allow update, delete: if isSignedIn() && (existing().authorUid == request.auth.uid || isAdmin());
+    }
+
+    // Conversations (Direct Messaging)
+    match /conversations/{conversationId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.participantUids.hasAny([request.auth.uid]) || 
+        isAdmin()
+      );
+      allow create: if isSignedIn() && incoming().participantUids.hasAny([request.auth.uid]);
+      allow update: if isSignedIn() && existing().participantUids.hasAny([request.auth.uid]);
+      allow delete: if isSignedIn() && (existing().participantUids.hasAny([request.auth.uid]) || isAdmin());
+    }
+
+    // Chat Messages
+    match /chatMessages/{messageId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.senderUid == request.auth.uid || 
+        resource.data.recipientUid == request.auth.uid || 
+        isAdmin()
+      );
+      allow create: if isSignedIn() && incoming().senderUid == request.auth.uid;
+      allow update: if isSignedIn() && existing().recipientUid == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['read']);
+      allow delete: if isSignedIn() && (existing().senderUid == request.auth.uid || isAdmin());
+    }
+
+    // User Event Notifications
+    match /notifications/{notificationId} {
+      allow get, list: if isSignedIn() && (
+        resource.data.recipientUid == request.auth.uid || 
+        isAdmin()
+      );
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && existing().recipientUid == request.auth.uid && incoming().diff(existing()).affectedKeys().hasOnly(['read', 'updatedAt']);
+      allow delete: if isSignedIn() && (existing().recipientUid == request.auth.uid || isAdmin());
+    }
+  }
+}

@@ -1,0 +1,1319 @@
+# MASTER PROJECT INSTRUCTION
+
+# UPGRADE MY EXISTING WEBSITE INTO A PROFESSIONAL GLOBAL CAREER AND HIRING PLATFORM
+
+Act as a senior full-stack software architect, React developer, Firebase specialist, UI/UX designer, recruitment platform engineer, AI integration engineer, and application security specialist.
+
+I already have an existing website project, and Firebase is connected.
+
+Your task is to inspect, improve, and extend my EXISTING PROJECT into a complete global career development, job application, talent recruitment, internship, hackathon, skill development, and fair online interview platform.
+
+This must be a real, functional web application, not merely a landing page, static dashboard, UI mockup, or collection of buttons that do nothing.
+
+I am a beginner using VS Code and Roo Code. Make careful changes, explain important configuration steps clearly, and test the implementation.
+
+==================================================
+SECTION 1 — NON-NEGOTIABLE PROJECT RULES
+========================================
+
+1. Inspect the entire existing project before editing.
+2. Identify the current framework, dependencies, routes, components, Firebase configuration, Authentication setup, database schema, existing four portals, and security rules.
+3. Preserve the existing project, project name, working features, and Firebase connection.
+4. Do not delete, rewrite, or replace working code unnecessarily.
+5. Do not create a new project or duplicate the existing application.
+6. Do not change unrelated features.
+7. Maintain exactly FOUR MAIN PORTALS, preserving the four existing portal roles and their functionality.
+8. Add new features to the appropriate existing portals rather than creating unnecessary extra portals.
+9. Reuse existing components and services whenever possible.
+10. Never overwrite Firebase configuration with dummy values.
+11. Never expose privileged credentials, service-account keys, or private API keys in frontend code.
+12. Do not fabricate real jobs, companies, interviews, candidate statistics, certificates, or hiring outcomes.
+13. Label sample records as DEMO DATA.
+14. Do not implement buttons that have no real action.
+15. Do not claim that an external service works unless it is actually configured and tested.
+16. Do not stop after presenting a plan. After inspecting the project and presenting a concise plan, implement the changes in manageable stages.
+17. Run the available build and tests and fix errors introduced by the changes.
+18. Do not disable existing security protections to make a feature work.
+19. Do not make destructive database migrations without explaining the impact and preserving existing data.
+20. Before major changes, identify risks and preserve a recovery path.
+
+If any feature requires a missing API, external service, backend function, or credential, implement what can be completed safely and clearly identify the remaining requirements.
+
+==================================================
+SECTION 2 — PRODUCT PURPOSE
+===========================
+
+Build one connected platform for:
+
+JOB SEEKERS:
+
+* Search for jobs across countries.
+* Discover companies and their opportunities.
+* Apply for jobs and internships.
+* Understand the skills required for a target role.
+* Identify personal skill gaps.
+* Receive personalized learning recommendations.
+* Improve resumes.
+* Maintain a professional portfolio.
+* Upload certificates and project files.
+* Complete practice quizzes and assessments.
+* Participate in company hackathons and challenges.
+* Attend online interviews within the website.
+* Receive structured feedback and track progress.
+
+COMPANIES AND RECRUITERS:
+
+* Publish verified job opportunities.
+* Announce internships and recruitment drives.
+* Publish hackathon problems and technical challenges.
+* Discover candidates using job-relevant skills.
+* Review candidate portfolios and authorized documents.
+* Receive and manage applications.
+* Evaluate hackathon submissions.
+* Schedule and conduct online interviews.
+* Use structured evaluation rubrics.
+* Hire suitable candidates.
+
+ADMINISTRATORS:
+
+* Manage authorized platform operations.
+* Review company verification requests.
+* Moderate suspicious job listings.
+* Handle complaints and reports.
+* Review authorized audit records.
+* Manage access and platform governance.
+
+Preserve the responsibilities of all four existing portals, including the existing fourth portal. Inspect the current project to determine its actual role before making changes.
+
+==================================================
+SECTION 3 — PROFESSIONAL WEBSITE UI/UX
+======================================
+
+Redesign the existing website into a premium, professional, enterprise-grade product.
+
+VISUAL DIRECTION:
+
+* White or warm-white backgrounds.
+* Dark navy or charcoal typography.
+* One restrained primary brand colour, such as deep blue.
+* Subtle neutral borders.
+* Carefully controlled shadows.
+* Consistent spacing.
+* Clean typography, such as Inter if compatible.
+* Professional icons from one consistent icon library.
+* Clear page headings and navigation.
+* Refined cards and tables.
+* Useful charts and progress indicators.
+* Subtle hover states and short transitions.
+* Responsive desktop, tablet, and mobile layouts.
+* Accessible contrast and keyboard navigation.
+
+The website should feel trustworthy, mature, polished, and appropriate for multinational companies.
+
+AVOID:
+
+* Rainbow gradients.
+* Neon colours.
+* Purple-and-black cyberpunk styling.
+* Excessive liquid effects or glassmorphism.
+* Excessive rounded cards.
+* Random dot grids and elliptical decorations.
+* Emoji-heavy interfaces.
+* Fake testimonials.
+* Fake company partnerships.
+* Fake statistics.
+* Decorative arrows on every card.
+* Unnecessary pricing sections.
+* Generic terminal-window graphics.
+* Giant headings that waste screen space.
+* Excessive skeleton loaders.
+* Unnecessary animations.
+* Childish pastel styling.
+* Fake AI-generated product screenshots.
+* Decorative sections that do not help users complete a task.
+
+Use real functional interface components rather than visual decoration.
+
+Every primary button, form, navigation link, search filter, and dashboard action must work.
+
+Do not invent a final brand name without asking me.
+
+==================================================
+SECTION 4 — PROFESSIONAL HOME PAGE
+==================================
+
+Create a polished home page that explains the platform clearly.
+
+Include:
+
+1. Navigation bar.
+2. Brand logo or configurable placeholder.
+3. Home.
+4. Explore Jobs.
+5. Explore Companies.
+6. Internships.
+7. Hackathons and Challenges.
+8. For Recruiters.
+9. Login.
+10. Register / Get Started.
+
+Hero section:
+
+* A clear headline about career growth and connecting talent with opportunities.
+* A short explanation.
+* Explore Jobs button.
+* Find Talent button.
+* Join as a Candidate button.
+
+Showcase the real product capabilities:
+
+* Global job discovery.
+* Skill-gap analysis.
+* Resume improvement.
+* Weekly assessments.
+* Internships.
+* Hackathons.
+* Online interviews.
+
+Include a How It Works section, appropriate trust information, and a professional footer.
+
+Do not include fake testimonials, fake user counts, or unverified company logos.
+
+==================================================
+SECTION 5 — AUTHENTICATION AND FOUR PORTALS
+===========================================
+
+Reuse the existing Firebase Authentication system.
+
+Support the existing four portal roles.
+
+At minimum, preserve the appropriate flows for:
+
+* Job Seeker / Student.
+* Company / Recruiter.
+* Platform Administrator.
+* The fourth existing portal role.
+
+Do not guess or replace the fourth role. Inspect the project and preserve it.
+
+Implement or improve:
+
+* Registration.
+* Login.
+* Logout.
+* Password reset.
+* Password show/hide.
+* Password strength indicator.
+* Form validation.
+* Clear errors and success messages.
+* Protected routes.
+* Role-based navigation.
+* Session handling.
+
+The password strength indicator should show Weak, Medium, or Strong and provide useful guidance.
+
+Firebase Authentication must manage password storage. Never save plaintext passwords in Firestore, localStorage, or application logs.
+
+Never allow users to grant themselves administrator privileges or mark their own company as verified.
+
+Enforce authorization using Firebase Security Rules and trusted backend functions where required. Hiding a button in the frontend is not sufficient security.
+
+==================================================
+SECTION 6 — GLOBAL JOB DISCOVERY
+================================
+
+Create a dedicated global job portal within the existing website.
+
+Job seekers should be able to search for jobs across countries and regions.
+
+Include:
+
+* Job title search.
+* Company search.
+* Country.
+* City or region.
+* Remote, hybrid, and on-site options.
+* Employment type.
+* Internship and full-time filters.
+* Experience level.
+* Required skills.
+* Education requirements.
+* Salary range when supplied by the employer.
+* Application deadline.
+* Recently published jobs.
+* Relevant opportunities.
+
+Each job listing should display:
+
+* Job title.
+* Company.
+* Location.
+* Employment type.
+* Required skills.
+* Eligibility.
+* Experience requirements.
+* Salary range if provided.
+* Description.
+* Application deadline.
+* Application status.
+* Apply button.
+
+Allow users to open a full job description and apply through the platform.
+
+Support application statuses such as:
+
+* Draft.
+* Submitted.
+* Under Review.
+* Shortlisted.
+* Interview.
+* Selected.
+* Rejected.
+* Withdrawn.
+
+Use actual data from the existing database wherever available.
+
+Do not claim that every company worldwide is integrated automatically. Global discovery should include jobs actually published or imported through authorized, supported sources.
+
+Do not scrape websites or bypass access restrictions. If external job feeds are added later, use authorized APIs or feeds and display their source.
+
+==================================================
+SECTION 7 — JOB APPLICATION MANAGEMENT
+======================================
+
+Create a dedicated My Applications section for job seekers.
+
+Users should be able to:
+
+* View all submitted applications.
+* Open application details.
+* See the company and job description.
+* View the current application status.
+* View authorized recruiter messages.
+* Withdraw an application when permitted.
+* Track interview invitations.
+* Review deadlines.
+* See which resume or portfolio version they submitted, where supported.
+
+Prevent duplicate applications where the job's rules prohibit them.
+
+Recruiters must only access applications for jobs they are authorized to manage.
+
+Application status changes must be traceable.
+
+Never allow a candidate to modify their own recruiter-assigned application status.
+
+==================================================
+SECTION 8 — SKILL-GAP ANALYSIS AND CAREER ROADMAP
+=================================================
+
+Create a Skill Analysis section.
+
+A user should be able to select a target job, such as:
+
+* Software Developer.
+* Frontend Developer.
+* Backend Developer.
+* Data Analyst.
+* AI/ML Engineer.
+* Cybersecurity Analyst.
+* Cloud Engineer.
+* QA Engineer.
+* Other recruiter-defined roles.
+
+Show:
+
+* Skills required by the target job.
+* Skills declared by the user.
+* Skills supported by assessment evidence.
+* Skills the user has not yet demonstrated.
+* Recommended learning resources.
+* Practice activities.
+* Suggested projects.
+* A personalized weekly learning plan.
+
+Example:
+
+Target Role: Frontend Developer.
+
+Required skills:
+
+* HTML.
+* CSS.
+* JavaScript.
+* React.
+* Git.
+* API integration.
+
+User's current skills:
+
+* Display the user's saved profile and assessment data.
+
+Skill gaps:
+
+* Show the specific missing or insufficiently demonstrated skills.
+
+Next actions:
+
+* Recommend learning materials.
+* Suggest a relevant practice quiz.
+* Recommend a project.
+* Suggest reassessment after practice.
+
+IMPORTANT:
+Do not claim a user has mastered a skill merely because they added it to their profile.
+
+Clearly distinguish self-declared skills, quiz performance, verified certificates, and recruiter evaluations.
+
+Do not promise that completing a particular roadmap guarantees employment.
+
+==================================================
+SECTION 9 — RESUME BUILDER AND RESUME IMPROVEMENT
+=================================================
+
+Build a professional resume section.
+
+Allow users to:
+
+* Enter education details.
+* Add work experience.
+* Add internships.
+* Add projects.
+* Add technical and soft skills.
+* Add certifications.
+* Add achievements.
+* Add portfolio links.
+* Add relevant hackathon participation.
+* Create and edit resume versions.
+* Preview the resume.
+* Export or download a PDF if supported by the existing stack.
+
+Provide structured resume improvement suggestions based on the user's selected target role and the job description.
+
+Examples:
+
+* Identify missing relevant skills.
+* Suggest clearer descriptions of projects.
+* Improve readability and organization.
+* Identify missing sections.
+* Suggest measurable achievements when the user provides evidence.
+* Compare resume content with a target job's stated requirements.
+
+Never invent experience, degrees, certificates, or achievements.
+
+Do not guarantee an ATS score or claim perfect compatibility with every applicant-tracking system.
+
+If an AI API is used, call it through a properly secured backend. Never expose secret AI API keys in the frontend.
+
+If no AI service is configured, implement a useful rule-based prototype and label its limitations clearly.
+
+==================================================
+SECTION 10 — USER PORTFOLIO AND DOCUMENT UPLOADS
+================================================
+
+Every job seeker should have a professional portfolio.
+
+Support:
+
+* Profile photo.
+* Professional bio.
+* Education.
+* Projects.
+* Technical skills.
+* Soft skills.
+* Certifications.
+* Hackathon achievements.
+* Internship experience.
+* Work experience.
+* Resume files.
+* Project documents.
+* Relevant screenshots and images.
+* Links to GitHub or other portfolio projects.
+
+Provide file upload options for:
+
+* PDF certificates.
+* Resume PDFs.
+* Relevant project documents.
+* Images or screenshots.
+* Other explicitly supported file types.
+
+Use Firebase Storage if compatible with the existing project.
+
+Implement:
+
+* File-type validation.
+* File-size limits.
+* Secure upload paths.
+* Authenticated uploads.
+* Authorization checks for file access.
+* Clear upload progress and error messages.
+* Delete and replace options.
+* Safe file previews where supported.
+
+Do not allow arbitrary executable uploads.
+
+Do not assume that a file is genuine merely because it has a PDF extension.
+
+Provide a certificate verification status only if an actual verification process exists.
+
+Keep private files private unless the user explicitly authorizes appropriate sharing.
+
+==================================================
+SECTION 11 — PRACTICE QUIZZES AND LEARNING PAGE
+===============================================
+
+Create a dedicated Learn and Practice section.
+
+Users should be able to:
+
+* Browse skill categories.
+* Select a target role.
+* Take topic-based quizzes.
+* Complete weekly quizzes.
+* Practise technical questions.
+* Review answers and explanations after submission.
+* View previous attempts.
+* Track progress over time.
+* Receive recommendations for further practice.
+* Reattempt quizzes when permitted.
+
+Support:
+
+* Multiple-choice questions.
+* Question navigation.
+* Progress indicators.
+* Time limits where appropriate.
+* Submission confirmation.
+* Result pages.
+* Explanations.
+* Skill-specific performance summaries.
+
+Provide relevant practice pages based on the user's selected career path.
+
+For example:
+A user preparing for a React Developer role should see React-related practice questions and projects.
+
+Quiz scores must not be presented as proof of professional competence.
+
+Keep answer keys and official scoring logic away from untrusted clients. Use trusted server-side validation or appropriate Firebase Cloud Functions when necessary.
+
+Do not expose correct answers before submission when the quiz is intended to be assessed.
+
+Clearly label demonstration quizzes as demo content.
+
+==================================================
+SECTION 12 — MNC COMPANY PORTAL
+===============================
+
+The company portal must allow authorized recruiters to manage their recruitment activity.
+
+Include:
+
+* Company profile.
+* Company verification status.
+* Job creation.
+* Internship announcements.
+* Recruitment drives.
+* Candidate discovery.
+* Applications.
+* Shortlisting.
+* Interview scheduling.
+* Interview evaluations.
+* Hackathon challenges.
+* Submission review.
+* Company updates.
+* Recruitment analytics based on actual data.
+
+Recruiters should be able to create and manage only their own authorized records.
+
+Unverified companies must not publish publicly visible opportunities until appropriately verified.
+
+Do not fabricate verification badges or imply that a company is officially associated with the platform unless that status has been confirmed.
+
+==================================================
+SECTION 13 — MNC DAILY UPDATES
+==============================
+
+Create a Company Updates feed for:
+
+* New job announcements.
+* Internship openings.
+* Recruitment drives.
+* Application deadlines.
+* Required skills.
+* Upcoming interviews.
+* Technical challenges.
+* Hackathons.
+* Recruitment events.
+* Company-specific notices.
+
+Allow authorized recruiters to:
+
+* Create an update.
+* Save a draft.
+* Publish an update.
+* Edit their own update.
+* Archive or close an expired opportunity.
+* Attach appropriate supporting documents where supported.
+
+Each update should include:
+
+* Title.
+* Category.
+* Description.
+* Company.
+* Required skills.
+* Eligibility.
+* Location.
+* Published date.
+* Deadline.
+* Related job or challenge.
+* Status.
+
+Show relevant updates to job seekers in their dashboard.
+
+Allow users to search and filter updates.
+
+Expired opportunities must be clearly marked.
+
+Do not generate fake daily updates. Display real published records or clearly labelled demo records.
+
+==================================================
+SECTION 14 — INTERNSHIP PORTAL
+==============================
+
+Create a dedicated internship discovery and application experience.
+
+Companies should be able to publish internship opportunities with:
+
+* Title.
+* Company.
+* Description.
+* Required skills.
+* Eligibility.
+* Duration.
+* Location or remote option.
+* Stipend or compensation, if supplied.
+* Application deadline.
+* Selection process.
+
+Job seekers should be able to:
+
+* Search internships.
+* Filter by role, skills, country, and remote availability.
+* View eligibility.
+* Apply through the website.
+* Submit the appropriate resume and portfolio.
+* Track application status.
+* Receive authorized interview invitations.
+
+Companies should be able to:
+
+* View applicants for their own internships.
+* Shortlist candidates.
+* Schedule interviews.
+* Record structured evaluations.
+* Update application status.
+
+Do not fabricate stipend amounts, job availability, or selection outcomes.
+
+==================================================
+SECTION 15 — COMPANY HACKATHONS AND PROBLEM STATEMENTS
+======================================================
+
+Build a dedicated Hackathons and Challenges section.
+
+Companies should be able to publish:
+
+* Hackathon name.
+* Problem statement.
+* Detailed description.
+* Challenge category.
+* Required skills.
+* Eligibility criteria.
+* Team-size rules.
+* Start date.
+* Submission deadline.
+* Evaluation criteria.
+* Allowed submission formats.
+* Prize or reward only when genuinely specified.
+* Terms and participation instructions.
+
+Users should be able to:
+
+* Browse challenges.
+* Search and filter problem statements.
+* Read the full problem.
+* Register or participate.
+* Create or join a team if the challenge supports teams.
+* Submit their solution through the website.
+* Upload code archives, PDFs, images, presentation files, or project documents within defined file restrictions.
+* Add a GitHub repository link or live demo link.
+* Describe their solution.
+* View submission status.
+* Receive authorized feedback.
+
+Company reviewers should be able to:
+
+* View eligible submissions.
+* Evaluate submissions using predefined criteria.
+* Add evidence-based feedback.
+* Score submissions using a consistent rubric.
+* Shortlist solutions.
+* Record evaluation history.
+* Announce results when authorized.
+
+Evaluation criteria may include:
+
+* Relevance to the problem.
+* Technical correctness.
+* Feasibility.
+* Originality.
+* User experience.
+* Security.
+* Quality of implementation.
+* Presentation and documentation.
+
+Use challenge-specific criteria rather than forcing every submission into the same generic rubric.
+
+## Fair competition rules
+
+* Publish evaluation criteria before the deadline.
+* Maintain submission timestamps.
+* Prevent unauthorized editing after the deadline unless an authorized exception exists.
+* Record changes to evaluation scores.
+* Use blind or anonymized evaluation when appropriate and practical.
+* Do not automatically label a solution as AI-generated or plagiarized without reliable evidence.
+* Provide a review process for disputed results.
+* Keep private submissions restricted to authorized reviewers.
+
+Companies must be able to publish a problem and review solutions submitted by eligible participants through the platform.
+
+Do not claim that a solution is the perfect answer. Let authorized reviewers evaluate it against published criteria.
+
+==================================================
+SECTION 16 — ONLINE INTERVIEW SYSTEM INSIDE THE WEBSITE
+=======================================================
+
+This is a core feature.
+
+When a company shortlists a candidate, the company should be able to invite the candidate to an interview that takes place within the website.
+
+Do not implement the entire interview workflow as an external-link-only experience.
+
+## Recruiter workflow
+
+1. Publish a job or internship.
+2. Receive applications.
+3. Review candidate profiles.
+4. Shortlist suitable candidates.
+5. Create an interview invitation.
+6. Select interview date and time.
+7. Define interview stages.
+8. Configure job-relevant questions and evaluation criteria.
+9. Send the invitation.
+10. Conduct the interview through the website.
+11. Record the evaluation.
+12. Provide authorized feedback.
+13. Update the application status.
+
+## Candidate workflow
+
+1. Apply for a job or internship.
+2. Receive an interview invitation if shortlisted.
+3. View interview details.
+4. Confirm or decline the invitation.
+5. Review instructions.
+6. Request accessibility accommodations if needed.
+7. Join the interview room at the scheduled time.
+8. Answer questions or complete the technical assessment.
+9. Submit responses.
+10. View authorized feedback when released.
+11. Track the recruitment status.
+
+## Interview room
+
+Build a professional interview interface with:
+
+* Interview title.
+* Job information.
+* Interviewer and candidate details.
+* Scheduled time.
+* Interview stage.
+* Question panel.
+* Timer.
+* Answer submission.
+* Save or submit controls where appropriate.
+* Submission confirmation.
+* Technical issue reporting.
+* Interview status.
+* Accessible navigation.
+
+If video calling is configured and technically supported, integrate it into the interview room.
+
+Inspect the existing architecture before choosing a video solution.
+
+If real-time video requires WebRTC signalling, TURN infrastructure, or a specialized service, explain and implement the available components without pretending that an unconfigured mock video is functional.
+
+A functional text-based or structured assessment interview must remain available if video is not configured.
+
+Never execute arbitrary candidate code directly on the production application server. Use an appropriately isolated execution environment if code execution is added.
+
+==================================================
+SECTION 17 — INTERVIEW QUESTIONS MUST MATCH THE JOB
+===================================================
+
+The platform must assess whether interview questions are relevant to the job being recruited for.
+
+For every job, define:
+
+* Required competencies.
+* Required skills.
+* Expected experience.
+* Interview stages.
+* Core questions.
+* Evaluation criteria.
+* Scoring rubric.
+* Expected duration.
+
+Provide standardized, role-specific question sets.
+
+Examples:
+
+* React Developer: React, JavaScript, components, state management, API integration, debugging.
+* Backend Developer: APIs, database design, authentication, authorization, error handling.
+* Data Analyst: SQL, data interpretation, statistics, and reporting.
+* Cloud Engineer: infrastructure, monitoring, deployment, security, and reliability.
+
+These are examples only. Use the actual job description and required competencies when available.
+
+For each interview question, provide:
+
+* Question text.
+* Related job competency.
+* Expected answer indicators.
+* Scoring rubric.
+* Optional follow-up questions.
+* Maximum points.
+
+Do not generate questions unrelated to the advertised role.
+
+If AI question generation is configured, generate suggestions from the actual job description and require recruiter review before the questions become active.
+
+If no AI API is configured, use role-specific templates and a rule-based relevance checker.
+
+Do not invent evidence or claim an AI model was used when it was not.
+
+==================================================
+SECTION 18 — FAIR INTERVIEW EVALUATION
+======================================
+
+The interview system should help make interviews more consistent and reduce avoidable bias.
+
+Implement:
+
+1. Job-relevant interview questions.
+2. Standardized core questions where practical.
+3. Consistent time limits where appropriate.
+4. Published evaluation criteria.
+5. Structured scoring rubrics.
+6. Evidence-based reviewer notes.
+7. Recorded score changes.
+8. Appropriate accommodations.
+9. Authorized candidate feedback.
+10. A process for reviewing disputed decisions.
+
+Example rubric:
+
+0 — No relevant evidence.
+1 — Limited understanding.
+2 — Partial understanding.
+3 — Meets the expected competency.
+4 — Strong answer with sound reasoning.
+
+Allow different rubrics for different question types when appropriate.
+
+Calculate scores consistently.
+
+Clearly distinguish:
+
+* Automatically checked objective answers.
+* Candidate-submitted work.
+* Recruiter ratings.
+* AI-generated suggestions.
+* Human-approved final assessments.
+
+Do not allow an AI model to make an unreviewable final hiring decision.
+
+Do not score facial expressions, eye contact, accent, inferred emotion, or appearance as indicators of professional competence.
+
+Do not infer sensitive personal characteristics from video, audio, names, or other indirect signals.
+
+==================================================
+SECTION 19 — FAIRNESS REVIEW AND ANTI-CHEATING SAFEGUARDS
+=========================================================
+
+Create an Interview Review feature for authorized reviewers.
+
+Review whether:
+
+* Questions are relevant to the job.
+* Questions follow the approved interview plan.
+* Core questions are consistent across candidates.
+* Scoring criteria were defined in advance.
+* Scoring criteria were changed without authorization.
+* Scores have supporting evidence.
+* Personal or discriminatory questions may have been asked.
+* Relevant technical incidents occurred.
+* Important evaluation steps were omitted.
+
+Support analysis of authorized interview transcripts, submitted notes, and structured interview records.
+
+If audio recording or transcription is implemented, obtain appropriate informed consent and clearly disclose its purpose, access rules, and retention period.
+
+Do not claim to have analysed audio or video if the system has not actually received and processed it.
+
+Use these review outcomes:
+
+A. No obvious concern found in the available evidence.
+B. Potential fairness concern requiring human review.
+C. Insufficient evidence to assess.
+
+Every concern must show:
+
+* The observed issue.
+* Supporting evidence.
+* Relevant question, event, or timestamp when available.
+* Severity.
+* Confidence and limitations.
+* Recommended review action.
+
+Do not make definitive fairness or misconduct judgments from weak evidence.
+
+## Anti-cheating controls
+
+Implement appropriate controls such as:
+
+* Authenticated interview sessions.
+* Server-authorized joining.
+* Scheduled access windows.
+* Server-side answer submission.
+* Server-side scoring where feasible.
+* Submission timestamps.
+* Audit logs for important events.
+* Detection of repeated or suspicious submission patterns.
+* Session-integrity event logging.
+* Clear permitted-resource instructions.
+* Candidate reporting of technical issues.
+
+Do not automatically treat tab switching, connection loss, pauses, assistive technology, or unusual timing as proof of cheating.
+
+Require human review before adverse decisions.
+
+Do not implement covert surveillance, hidden recording, unauthorized microphone or camera access, or invasive monitoring.
+
+If recording is implemented, clearly disclose it, obtain appropriate informed consent, show a recording indicator, restrict access, and support applicable retention and deletion requirements.
+
+==================================================
+SECTION 20 — POST-INTERVIEW FEEDBACK
+====================================
+
+Create a dedicated feedback page for completed interviews.
+
+Feedback may include:
+
+* Interview title.
+* Job role.
+* Interview date.
+* Competencies assessed.
+* Question-by-question rubric results where authorized.
+* Strengths supported by evidence.
+* Areas for improvement.
+* Recommended practice topics.
+* Recommended learning activities.
+* Next steps in the application process.
+
+Provide structured text fields for interviewers.
+
+Provide an upload option for relevant supporting files where authorized, including:
+
+* Images.
+* PDFs.
+* Interview task documents.
+* Candidate-submitted work.
+* Relevant feedback attachments.
+
+Allow candidates to upload supporting documents or appeal materials when appropriate.
+
+Validate uploads, enforce access permissions, and use Firebase Storage when available.
+
+Do not expose confidential recruiter notes or internal deliberations to candidates.
+
+Make it clear which feedback is visible to the candidate and which records are restricted to authorized reviewers.
+
+Do not generate unsupported personal judgments about candidates.
+
+==================================================
+SECTION 21 — CANDIDATE APPLICATION AND TALENT PROFILE
+=====================================================
+
+Recruiters should be able to discover candidates using job-relevant criteria.
+
+Candidate search filters:
+
+* Skills.
+* Education.
+* Experience.
+* Projects.
+* Certifications.
+* Relevant assessment results.
+* Portfolio information.
+* Location, when voluntarily provided.
+* Availability, when voluntarily provided.
+
+Candidate profile should show authorized professional information:
+
+* Bio.
+* Education.
+* Skills.
+* Projects.
+* Experience.
+* Certificates.
+* Resume.
+* Portfolio links.
+* Relevant quiz and challenge achievements.
+* Authorized assessment summaries.
+
+Users must be able to control profile visibility.
+
+Do not reveal private contact details, private documents, or sensitive personal information without appropriate authorization.
+
+Do not rank candidates using protected characteristics.
+
+Do not treat self-declared skills as verified qualifications.
+
+==================================================
+SECTION 22 — FEEDBACK, SUPPORT, AND FILE UPLOADS
+================================================
+
+Create or improve a feedback and support section.
+
+Users should be able to:
+
+* Submit platform feedback.
+* Report a technical problem.
+* Report a suspicious job listing.
+* Report an interview concern.
+* Request a review of a challenge evaluation.
+* Attach a relevant screenshot or document.
+* View a reference number and submission status where supported.
+
+Provide:
+
+* Feedback category.
+* Description.
+* Optional attachment.
+* Submission confirmation.
+* Status tracking.
+* Appropriate privacy notices.
+
+Only authorized support or administrative users should access private reports and attachments.
+
+Validate uploads and restrict file access.
+
+Do not expose reports to unrelated users or companies.
+
+==================================================
+SECTION 23 — FIREBASE ARCHITECTURE
+==================================
+
+Firebase is already connected.
+
+Reuse the current configuration and existing data model.
+
+Inspect the current schema before adding collections.
+
+Potential data entities include:
+
+* users.
+* companies.
+* jobs.
+* internships.
+* applications.
+* companyUpdates.
+* skillAssessments.
+* quizzes.
+* quizAttempts.
+* resumes.
+* portfolioProjects.
+* certificates.
+* hackathons.
+* hackathonSubmissions.
+* interviews.
+* interviewQuestions.
+* interviewResponses.
+* interviewRubrics.
+* interviewReviews.
+* feedbackReports.
+* auditLogs.
+
+These are suggested logical entities, not instructions to create duplicate collections if equivalent data structures already exist.
+
+Use Firebase Authentication for identity.
+
+Use Cloud Firestore for structured application data.
+
+Use Firebase Storage for supported files.
+
+Use Firebase Cloud Functions or an appropriate trusted backend for operations that must not be controlled by an untrusted client.
+
+Use server timestamps for important events when appropriate.
+
+Keep scoring logic, answer keys, privileged actions, and sensitive data protected.
+
+==================================================
+SECTION 24 — FIREBASE SECURITY RULES
+====================================
+
+Security is mandatory.
+
+Inspect the existing Firestore and Storage Security Rules before changing them.
+
+Do not replace existing rules blindly.
+
+Implement least-privilege access.
+
+Requirements:
+
+* Users can edit only their own permitted profile fields.
+* Users cannot change their own privileged roles.
+* Only authorized administrators or trusted backend processes can verify companies.
+* Recruiters can manage only their authorized company records.
+* Companies cannot read or modify another company's private records.
+* Candidates can access only their own authorized applications and interviews.
+* Recruiters can access applications for jobs they manage.
+* Private resumes and certificates require appropriate authorization.
+* Official quiz scores and interview results cannot be modified by unauthorized users.
+* Hackathon submissions become immutable after the deadline unless an authorized exception exists.
+* Interview records and scoring changes are traceable.
+* Private feedback reports are restricted to authorized reviewers.
+* Public job listings contain only intended public information.
+* Unauthorized requests are denied by default.
+
+Never use production rules that allow every user to read and write everything.
+
+Never treat a frontend role check as a substitute for server-enforced authorization.
+
+Use trusted backend validation for privileged workflows where required.
+
+Do not expose Firebase Admin SDK credentials or private secrets in frontend code.
+
+Test both allowed and denied access paths.
+
+==================================================
+SECTION 25 — PRIVACY AND RESPONSIBLE AI
+=======================================
+
+Collect only necessary personal information.
+
+Clearly distinguish public professional profile fields from private account information.
+
+Provide suitable privacy notices, consent mechanisms, data access controls, and deletion processes.
+
+Use secure document handling and appropriate retention periods.
+
+For AI-assisted recommendations:
+
+* Explain the basis of recommendations where practical.
+* Distinguish suggestions from verified facts.
+* Avoid unsupported claims.
+* Allow human review of important decisions.
+* Never guarantee employment or selection.
+* Do not invent qualifications.
+* Do not infer protected personal characteristics.
+* Do not use facial expressions, accents, or inferred emotions to judge interview competence.
+
+Do not claim legal compliance without a proper review.
+
+==================================================
+SECTION 26 — TECHNICAL IMPLEMENTATION
+=====================================
+
+Inspect the existing project first.
+
+Preserve the existing framework and dependencies wherever possible.
+
+If the current project uses React and Vite, continue with that setup.
+
+Use the existing routing system.
+
+Use reusable components and service modules.
+
+Keep UI components separate from Firebase data access.
+
+Avoid unnecessary dependencies.
+
+Do not introduce a new database or authentication provider without a strong reason.
+
+If real-time communication, AI generation, external job feeds, or code execution requires an external service, explain the requirements before adding dependencies or costs.
+
+Never expose secret API keys in frontend code.
+
+Use graceful error handling when a service is unavailable.
+
+==================================================
+SECTION 27 — IMPLEMENTATION PRIORITY
+====================================
+
+Implement changes in controlled stages.
+
+PHASE 1:
+
+* Inspect and document the current project.
+* Preserve the four portals.
+* Improve shared design system.
+* Improve navigation and responsiveness.
+* Verify Firebase integration.
+
+PHASE 2:
+
+* Improve job seeker profile.
+* Build global job discovery.
+* Build application tracking.
+* Build resume and portfolio sections.
+* Add certificate and project uploads.
+
+PHASE 3:
+
+* Implement skill-gap analysis.
+* Implement learning roadmap.
+* Build practice and weekly quizzes.
+* Add progress tracking.
+
+PHASE 4:
+
+* Improve MNC portal.
+* Add daily company updates.
+* Add job and internship publishing.
+* Add candidate discovery.
+* Add application management.
+
+PHASE 5:
+
+* Build hackathon and problem statement publishing.
+* Add submissions and file uploads.
+* Add structured evaluation and reviewer feedback.
+
+PHASE 6:
+
+* Implement online interview scheduling.
+* Build the website interview room.
+* Add job-relevant questions and scoring rubrics.
+* Add post-interview feedback.
+
+PHASE 7:
+
+* Add interview fairness review.
+* Add proportionate integrity safeguards.
+* Add authorized audit records.
+* Add complaint and appeal workflows.
+
+PHASE 8:
+
+* Test Firebase security.
+* Test every important user journey.
+* Test file permissions.
+* Test role-based access.
+* Test responsive layouts.
+* Run the production build.
+* Fix errors and document remaining limitations.
+
+Do not create a superficial version of every feature while leaving the core workflows broken.
+
+Prioritize end-to-end functionality and secure implementation.
+
+==================================================
+SECTION 28 — REQUIRED END-TO-END TESTS
+======================================
+
+Test these user journeys:
+
+TEST 1: JOB SEEKER
+
+* Register or log in.
+* Complete the profile.
+* Add education and skills.
+* Upload a certificate or supported project file.
+* Search for a job.
+* Open the job description.
+* Apply.
+* View the application status.
+* Review skill gaps.
+* Complete a practice quiz.
+* Improve the resume.
+* Receive an interview invitation in the demo or configured workflow.
+* Join the interview room.
+* Submit answers.
+* View released feedback.
+
+TEST 2: COMPANY
+
+* Log in as an authorized recruiter.
+* Publish a job.
+* Publish an internship.
+* Publish a daily update.
+* Publish a hackathon problem.
+* View eligible applicants.
+* Review a hackathon submission.
+* Shortlist a candidate.
+* Schedule an interview.
+* Conduct the configured interview workflow.
+* Evaluate answers using the rubric.
+* Release appropriate feedback.
+* Update the application status.
+
+TEST 3: SECURITY
+
+* Verify that users cannot access another user's private records.
+* Verify that companies cannot access another company's private applications.
+* Verify that students cannot modify official scores.
+* Verify that unverified companies cannot publish public jobs.
+* Verify that private files cannot be accessed without authorization.
+* Verify that users cannot grant themselves privileged roles.
+* Verify that unauthorized interview and hackathon score changes are rejected.
+
+TEST 4: USER EXPERIENCE
+
+* Test all major buttons.
+* Test form validation.
+* Test search and filters.
+* Test empty states.
+* Test loading and error states.
+* Test mobile layouts.
+* Test navigation across all four portals.
+* Check the browser console.
+* Run the available build and test commands.
+
+==================================================
+SECTION 29 — FINAL DELIVERABLE
+==============================
+
+When finished, provide:
+
+1. Summary of the existing architecture discovered.
+2. Confirmation that all four existing portals were preserved.
+3. List of files changed.
+4. Features fully implemented.
+5. Features partially implemented.
+6. External services or configuration still required.
+7. Firebase changes and security-rule changes.
+8. Build and test results.
+9. Known limitations.
+10. Any remaining security concerns.
+11. Exact commands to run the website.
+12. A practical manual testing checklist.
+
+Do not claim that the website is fully secure or production-ready merely because it builds successfully.
+
+Begin by inspecting the existing project. Preserve all working functionality, explain the implementation plan briefly, and then carry out the changes carefully.

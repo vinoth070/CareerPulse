@@ -1,0 +1,392 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile document containing student, recruiter, admin, or reviewer details",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["student", "company", "admin", "reviewer"] },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 100 },
+        "bio": { "type": "string", "maxLength": 1000 },
+        "educationLevel": { "type": "string", "maxLength": 100 },
+        "degree": { "type": "string", "maxLength": 150 },
+        "institution": { "type": "string", "maxLength": 150 },
+        "graduationYear": { "type": "string", "maxLength": 10 },
+        "skills": { "type": "array" },
+        "softSkills": { "type": "array" },
+        "projects": { "type": "array" },
+        "certifications": { "type": "array" },
+        "careerGoals": { "type": "string", "maxLength": 500 },
+        "profileVisibility": { "type": "string", "enum": ["public", "private"] },
+        "profileCompleted": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["uid", "role", "email", "profileVisibility"]
+    },
+    "Company": {
+      "title": "Company",
+      "description": "Company registration and verification profile",
+      "type": "object",
+      "properties": {
+        "ownerUid": { "type": "string", "maxLength": 128 },
+        "companyName": { "type": "string", "maxLength": 150 },
+        "recruiterName": { "type": "string", "maxLength": 100 },
+        "workEmail": { "type": "string", "maxLength": 256 },
+        "industry": { "type": "string", "maxLength": 100 },
+        "website": { "type": "string", "maxLength": 200 },
+        "location": { "type": "string", "maxLength": 150 },
+        "about": { "type": "string", "maxLength": 1500 },
+        "verificationStatus": { "type": "string", "enum": ["pending", "verified", "rejected"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["ownerUid", "companyName", "recruiterName", "workEmail", "verificationStatus"]
+    },
+    "Quiz": {
+      "title": "Quiz",
+      "description": "Weekly skill assessment quiz for students",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "weekNumber": { "type": "number" },
+        "description": { "type": "string", "maxLength": 1000 },
+        "category": { "type": "string", "maxLength": 100 },
+        "timeLimitMinutes": { "type": "number" },
+        "totalQuestions": { "type": "number" },
+        "status": { "type": "string", "enum": ["active", "archived", "upcoming"] },
+        "questions": { "type": "array" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "weekNumber", "category", "questions", "status"]
+    },
+    "QuizAttempt": {
+      "title": "QuizAttempt",
+      "description": "Assessment attempt and scoring record by a student",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "quizId": { "type": "string", "maxLength": 128 },
+        "quizTitle": { "type": "string", "maxLength": 150 },
+        "score": { "type": "number" },
+        "totalQuestions": { "type": "number" },
+        "percentage": { "type": "number" },
+        "answers": { "type": "object" },
+        "skillsEvaluated": { "type": "array" },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["userId", "quizId", "score", "totalQuestions", "submittedAt"]
+    },
+    "Job": {
+      "title": "Job",
+      "description": "Career and internship opportunity posted by an enterprise",
+      "type": "object",
+      "properties": {
+        "companyId": { "type": "string", "maxLength": 128 },
+        "companyName": { "type": "string", "maxLength": 150 },
+        "title": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 3000 },
+        "requiredSkills": { "type": "array" },
+        "eligibility": { "type": "string", "maxLength": 500 },
+        "location": { "type": "string", "maxLength": 100 },
+        "employmentType": { "type": "string", "enum": ["full-time", "part-time", "internship", "contract"] },
+        "deadline": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "closed"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["companyId", "companyName", "title", "description", "status"]
+    },
+    "Application": {
+      "title": "Application",
+      "description": "Candidate application to an active job or internship",
+      "type": "object",
+      "properties": {
+        "jobId": { "type": "string", "maxLength": 128 },
+        "companyId": { "type": "string", "maxLength": 128 },
+        "candidateUid": { "type": "string", "maxLength": 128 },
+        "candidateName": { "type": "string", "maxLength": 100 },
+        "candidateEmail": { "type": "string", "maxLength": 256 },
+        "skills": { "type": "array" },
+        "coverNote": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["draft", "applied", "under_review", "shortlisted", "interview", "selected", "rejected", "withdrawn"] },
+        "appliedAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["jobId", "companyId", "candidateUid", "candidateName", "status", "appliedAt"]
+    },
+    "CompanyUpdate": {
+      "title": "CompanyUpdate",
+      "description": "MNC daily update or announcement feed",
+      "type": "object",
+      "properties": {
+        "companyId": { "type": "string", "maxLength": 128 },
+        "companyName": { "type": "string", "maxLength": 150 },
+        "title": { "type": "string", "maxLength": 150 },
+        "category": { "type": "string" },
+        "description": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["draft", "published", "archived"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["companyId", "title", "category", "description", "status"]
+    },
+    "Hackathon": {
+      "title": "Hackathon",
+      "description": "Enterprise technical challenge or hackathon",
+      "type": "object",
+      "properties": {
+        "companyId": { "type": "string", "maxLength": 128 },
+        "companyName": { "type": "string", "maxLength": 150 },
+        "title": { "type": "string", "maxLength": 150 },
+        "problemStatement": { "type": "string", "maxLength": 3000 },
+        "description": { "type": "string", "maxLength": 3000 },
+        "category": { "type": "string", "maxLength": 100 },
+        "requiredSkills": { "type": "array" },
+        "deadline": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "closed"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["companyId", "title", "problemStatement", "deadline", "status"]
+    },
+    "HackathonSubmission": {
+      "title": "HackathonSubmission",
+      "description": "Student solution submission for a hackathon problem",
+      "type": "object",
+      "properties": {
+        "hackathonId": { "type": "string", "maxLength": 128 },
+        "candidateUid": { "type": "string", "maxLength": 128 },
+        "candidateName": { "type": "string", "maxLength": 100 },
+        "solutionTitle": { "type": "string", "maxLength": 150 },
+        "solutionDescription": { "type": "string", "maxLength": 3000 },
+        "status": { "type": "string", "enum": ["submitted", "under_review", "shortlisted", "awarded", "rejected"] },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["hackathonId", "candidateUid", "solutionTitle", "status", "submittedAt"]
+    },
+    "Interview": {
+      "title": "Interview",
+      "description": "Live online interview record and evaluation session",
+      "type": "object",
+      "properties": {
+        "applicationId": { "type": "string", "maxLength": 128 },
+        "jobId": { "type": "string", "maxLength": 128 },
+        "companyId": { "type": "string", "maxLength": 128 },
+        "candidateUid": { "type": "string", "maxLength": 128 },
+        "stage": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["scheduled", "in_progress", "completed", "cancelled"] },
+        "feedbackReleased": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["jobId", "companyId", "candidateUid", "status"]
+    },
+    "FairnessReview": {
+      "title": "FairnessReview",
+      "description": "Independent interview fairness audit and anti-bias review record",
+      "type": "object",
+      "properties": {
+        "interviewId": { "type": "string", "maxLength": 128 },
+        "reviewerUid": { "type": "string", "maxLength": 128 },
+        "outcome": { "type": "string", "enum": ["no_concern", "potential_concern", "insufficient_evidence"] },
+        "evidenceNotes": { "type": "string", "maxLength": 2000 },
+        "reviewedAt": { "type": "string" }
+      },
+      "required": ["interviewId", "reviewerUid", "outcome", "reviewedAt"]
+    },
+    "SupportTicket": {
+      "title": "SupportTicket",
+      "description": "User feedback, bug report, or suspicious job listing complaint",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string" },
+        "subject": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "status": { "type": "string", "enum": ["open", "in_review", "resolved"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["userId", "category", "subject", "description", "status"]
+    },
+    "ConnectionRequest": {
+      "title": "ConnectionRequest",
+      "description": "Professional connection request between users",
+      "type": "object",
+      "properties": {
+        "senderUid": { "type": "string", "maxLength": 128 },
+        "senderName": { "type": "string", "maxLength": 100 },
+        "senderRole": { "type": "string" },
+        "recipientUid": { "type": "string", "maxLength": 128 },
+        "recipientName": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["senderUid", "recipientUid", "status", "createdAt"]
+    },
+    "FeedPost": {
+      "title": "FeedPost",
+      "description": "Professional community feed post with reactions and attachments",
+      "type": "object",
+      "properties": {
+        "authorUid": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorRole": { "type": "string" },
+        "content": { "type": "string", "maxLength": 5000 },
+        "mediaUrl": { "type": "string", "maxLength": 1000 },
+        "likesCount": { "type": "number" },
+        "commentsCount": { "type": "number" },
+        "sharesCount": { "type": "number" },
+        "visibility": { "type": "string", "enum": ["public", "connections"] },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["authorUid", "authorName", "content", "visibility", "createdAt"]
+    },
+    "PostComment": {
+      "title": "PostComment",
+      "description": "User comment or response to a feed post",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string", "maxLength": 128 },
+        "authorUid": { "type": "string", "maxLength": 128 },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorRole": { "type": "string" },
+        "content": { "type": "string", "maxLength": 2000 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["postId", "authorUid", "authorName", "content", "createdAt"]
+    },
+    "Conversation": {
+      "title": "Conversation",
+      "description": "Direct messaging conversation metadata and participant indexing",
+      "type": "object",
+      "properties": {
+        "participantUids": { "type": "array" },
+        "participantDetails": { "type": "object" },
+        "lastMessage": { "type": "string", "maxLength": 1000 },
+        "lastMessageSenderUid": { "type": "string", "maxLength": 128 },
+        "lastMessageTimestamp": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["participantUids", "lastMessage", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Direct chat message within a conversation",
+      "type": "object",
+      "properties": {
+        "conversationId": { "type": "string", "maxLength": 128 },
+        "senderUid": { "type": "string", "maxLength": 128 },
+        "senderName": { "type": "string", "maxLength": 100 },
+        "recipientUid": { "type": "string", "maxLength": 128 },
+        "text": { "type": "string", "maxLength": 4000 },
+        "attachmentUrl": { "type": "string", "maxLength": 1000 },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["conversationId", "senderUid", "recipientUid", "text", "createdAt"]
+    },
+    "AppNotification": {
+      "title": "AppNotification",
+      "description": "User event notification",
+      "type": "object",
+      "properties": {
+        "recipientUid": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string" },
+        "title": { "type": "string", "maxLength": 200 },
+        "message": { "type": "string", "maxLength": 1000 },
+        "read": { "type": "boolean" },
+        "link": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["recipientUid", "type", "title", "message", "read", "createdAt"]
+    },
+    "TestDoc": {
+      "title": "TestDoc",
+      "description": "Connection diagnostic document",
+      "type": "object",
+      "properties": {
+        "status": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profiles for students, recruiters, admins, and reviewers"
+    },
+    "/companies/{companyId}": {
+      "schema": "Company",
+      "description": "Company profiles and corporate verification status"
+    },
+    "/quizzes/{quizId}": {
+      "schema": "Quiz",
+      "description": "Weekly skill assessments and topic quizzes"
+    },
+    "/quizAttempts/{attemptId}": {
+      "schema": "QuizAttempt",
+      "description": "Student quiz attempts and calculated results"
+    },
+    "/jobs/{jobId}": {
+      "schema": "Job",
+      "description": "Job and internship opportunities published by companies"
+    },
+    "/applications/{applicationId}": {
+      "schema": "Application",
+      "description": "Candidate applications to jobs and internships"
+    },
+    "/companyUpdates/{updateId}": {
+      "schema": "CompanyUpdate",
+      "description": "Daily company announcements, drives, and event updates"
+    },
+    "/hackathons/{hackathonId}": {
+      "schema": "Hackathon",
+      "description": "Enterprise hackathons and technical problem challenges"
+    },
+    "/hackathonSubmissions/{submissionId}": {
+      "schema": "HackathonSubmission",
+      "description": "Student submissions to enterprise hackathons"
+    },
+    "/interviews/{interviewId}": {
+      "schema": "Interview",
+      "description": "Online interview rooms, scheduled sessions, and rubric ratings"
+    },
+    "/fairnessReviews/{reviewId}": {
+      "schema": "FairnessReview",
+      "description": "Independent interview fairness audits"
+    },
+    "/supportTickets/{ticketId}": {
+      "schema": "SupportTicket",
+      "description": "User feedback, complaints, and dispute reports"
+    },
+    "/connectionRequests/{requestId}": {
+      "schema": "ConnectionRequest",
+      "description": "Professional networking connection requests"
+    },
+    "/feedPosts/{postId}": {
+      "schema": "FeedPost",
+      "description": "Community and industry professional feed posts"
+    },
+    "/postComments/{commentId}": {
+      "schema": "PostComment",
+      "description": "User comments on professional feed posts"
+    },
+    "/conversations/{conversationId}": {
+      "schema": "Conversation",
+      "description": "User direct messaging conversation threads"
+    },
+    "/chatMessages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Individual messages in conversations"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "AppNotification",
+      "description": "In-app real event notifications for users"
+    },
+    "/test/{docId}": {
+      "schema": "TestDoc",
+      "description": "Connection test doc"
+    }
+  }
+}
